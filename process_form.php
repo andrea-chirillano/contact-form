@@ -1,12 +1,12 @@
 <?php
-$conexion = new mysqli("localhost", "id21722166_andrea", "Dogcat123!", "id21722166_contacts");
+$connection = new mysqli("localhost", "id21722166_andrea", "Dogcat123!", "id21722166_contacts") or exit ('Could not connect to the database.');;
 
-if ($conexion->connect_error) {
-    die("Connection failed: " . $conexion->connect_error);
+if ($connection->connect_error) {
+    die("Connection failed: " . $connection->connect_error);
 }
 
 // Get form 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
+if (isset($_GET['submitted']) && $_GET['submitted'] === 'true' && $_SERVER["REQUEST_METHOD"] == "POST") {
     $name = $_POST['name'];
     $last_name = $_POST['last_name'];
     $phone_number = $_POST['phone_number'];
@@ -19,16 +19,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     // Insert data into the database
-    $sql = "INSERT INTO Contacts (name, last_name, phone_number, email, content) 
-        VALUES ('$name', '$last_name', '$phone_number', '$email', '$content')";
+    $sql = "INSERT INTO contacts (id, name, last_name, phone_number, email, content) 
+        VALUES (DEFAULT, '$name', '$last_name', '$phone_number', '$email', '$content')";
 
-    if ($conexion->query($sql) === TRUE) {
+    if ($connection->query($sql) === TRUE) {
         echo "¡Successful registration!";
     } else {
-        echo "Error: " . $sql . "<br>" . $conexion->error;
+        echo "Error: " . $sql . "<br>" . $connection->error;
     }
 
-    $conexion->close();
+    $connection->close();
 } else {
     echo "Connection error.";
 }
