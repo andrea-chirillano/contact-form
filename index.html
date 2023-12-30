@@ -4,11 +4,40 @@
     <meta charset="UTF-8">
     <title>Contact Form</title>
     <link rel="stylesheet" href="styles.css">
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#contactForm').submit(function(e) {
+                e.preventDefault(); // Prevent the form from submitting traditionally
+
+                // Your form data
+                var formData = $(this).serialize();
+
+                // AJAX request to submit the form data
+                $.ajax({
+                    type: 'POST',
+                    url: 'process_form.php',
+                    data: formData,
+                    success: function(response) {
+                        // Display the success message or handle errors
+                        alert(response);
+
+                        // You can optionally redirect to index.html here if needed
+                        // window.location.href = 'index.html';
+                    },
+                    error: function(xhr, status, error) {
+                        console.log(xhr.responseText);
+                    }
+                });
+            });
+        });
+    </script>
 </head>
 <body>
     <div class="container">
         <h2>Contact Form</h2>
-        <form action="index.html?submitted=true" method="post">
+        <form id="contactForm" method="post">
+            <!-- Your form fields go here -->
             <label for="name">Name:</label>
             <input type="text" name="name" required>
 
